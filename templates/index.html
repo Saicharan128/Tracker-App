@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Tab Navigation -->
+<div class="flex justify-center mb-8">
+    <div class="neu-flat p-2 rounded-full flex gap-4 flex-wrap justify-center">
+        <button class="neu-tab-active px-6 py-2 rounded-full text-sm font-bold text-red-500 transition-all duration-300"
+            onclick="switchTab('dashboard')" id="tab-btn-dashboard">
+            Dashboard
+        </button>
+        <button
+            class="neu-tab px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:text-red-500 transition-all duration-300"
+            onclick="switchTab('analysis')" id="tab-btn-analysis">
+            Analysis
+        </button>
+        <button
+            class="neu-tab px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:text-red-500 transition-all duration-300"
+            onclick="switchTab('insights')" id="tab-btn-insights">
+            Insights
+        </button>
+        <button
+            class="neu-tab px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:text-red-500 transition-all duration-300"
+            onclick="switchTab('garden')" id="tab-btn-garden">
+            Garden
+        </button>
+        <button
+            class="neu-tab px-6 py-2 rounded-full text-sm font-bold text-gray-500 hover:text-red-500 transition-all duration-300"
+            onclick="switchTab('journal')" id="tab-btn-journal">
+            Journal
+        </button>
+    </div>
+</div>
+
+<!-- Tab Content: Dashboard -->
+<div id="tab-dashboard" class="tab-content block fade-in">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[70vh]">
+
+        <!-- Left Column: Stats & Motivation (lg:col-span-7) -->
+        <div class="lg:col-span-7 flex flex-col gap-8">
+
+            <!-- Hero / Streak Counter -->
+            <div class="neu-flat p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group fade-in-up"
+                style="animation-delay: 0.1s;">
+                <div class="absolute top-0 right-0 p-6 opacity-10">
+                    <i class="fas fa-fire text-9xl text-red-500 transform rotate-12"></i>
+                </div>
+
+                <h2 class="text-lg font-bold text-gray-400 uppercase tracking-widest mb-6">Current Streak</h2>
+
+                <div class="relative z-10 grid grid-cols-4 gap-4 md:gap-8 w-full max-w-2xl px-4">
+                    <!-- Days -->
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl md:text-6xl font-black text-gray-700 tracking-tighter leading-none"
+                            id="streak-days">0</div>
+                        <div class="text-xs md:text-sm font-bold text-red-500 uppercase tracking-wider mt-2">Days</div>
+                    </div>
+                    <!-- Hours -->
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl md:text-6xl font-black text-gray-700 tracking-tighter leading-none"
+                            id="streak-hours">00</div>
+                        <div class="text-xs md:text-sm font-bold text-red-500 uppercase tracking-wider mt-2">Hours</div>
+                    </div>
+                    <!-- Minutes -->
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl md:text-6xl font-black text-gray-700 tracking-tighter leading-none"
+                            id="streak-minutes">00</div>
+                        <div class="text-xs md:text-sm font-bold text-red-500 uppercase tracking-wider mt-2">Mins</div>
+                    </div>
+                    <!-- Seconds -->
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl md:text-6xl font-black text-gray-700 tracking-tighter leading-none"
+                            id="streak-seconds">00</div>
+                        <div class="text-xs md:text-sm font-bold text-red-500 uppercase tracking-wider mt-2">Secs</div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <button id="reset-btn"
+                        class="neu-btn px-8 py-4 text-sm font-bold uppercase tracking-wider hover:text-red-600 flex items-center gap-3 group-hover:scale-105 transition-transform">
+                        <i class="fas fa-redo-alt"></i> Reset Streak
+                    </button>
+                </div>
+            </div>
+
+            <!-- Motivation Card -->
+            <div class="neu-flat p-8 flex flex-col justify-center fade-in-up" style="animation-delay: 0.2s;">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="neu-icon w-12 h-12 rounded-full flex items-center justify-center text-red-500 text-xl flex-shrink-0">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <div>
+                        <p class="text-xl md:text-2xl font-bold text-gray-600 leading-relaxed italic" id="quote-text">
+                            "The only person you are destined to become is the person you decide to be."
+                        </p>
+                        <p class="text-right text-red-500 mt-4 font-bold text-sm uppercase tracking-wide"
+                            id="quote-author">
+                            - Ralph Waldo Emerson</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Journal & Actions (lg:col-span-5) -->
+        <div class="lg:col-span-5 flex flex-col gap-8">
+
+            <!-- Journal Input -->
+            <div class="neu-flat p-8 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-extrabold text-gray-700 flex items-center gap-3">
+                        <i class="fas fa-pen-nib text-red-500"></i> Daily Journal
+                    </h3>
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                        <span id="current-date">Today</span>
+                    </div>
+                </div>
+
+                <form id="journal-form" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Mood</label>
+                        <div class="flex gap-4 justify-between">
+                            <button type="button"
+                                class="neu-btn w-12 h-12 rounded-full text-2xl flex items-center justify-center mood-btn hover:scale-110 transition-transform"
+                                data-mood="🔥">🔥</button>
+                            <button type="button"
+                                class="neu-btn w-12 h-12 rounded-full text-2xl flex items-center justify-center mood-btn hover:scale-110 transition-transform"
+                                data-mood="💪">💪</button>
+                            <button type="button"
+                                class="neu-btn w-12 h-12 rounded-full text-2xl flex items-center justify-center mood-btn hover:scale-110 transition-transform"
+                                data-mood="😐">😐</button>
+                            <button type="button"
+                                class="neu-btn w-12 h-12 rounded-full text-2xl flex items-center justify-center mood-btn hover:scale-110 transition-transform"
+                                data-mood="😔">😔</button>
+                            <button type="button"
+                                class="neu-btn w-12 h-12 rounded-full text-2xl flex items-center justify-center mood-btn hover:scale-110 transition-transform"
+                                data-mood="😫">😫</button>
+                        </div>
+                        <input type="hidden" name="mood" id="mood-input" value="🔥">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Note</label>
+                        <textarea id="note-input" rows="4"
+                            class="neu-pressed w-full p-4 text-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all resize-none placeholder-gray-400 text-sm font-medium"
+                            placeholder="Write your thoughts..."></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="neu-btn-primary w-full py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2">
+                        Save Entry <i class="fas fa-check"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Recent Entries (Compact) -->
+            <div class="neu-flat p-8 flex-grow fade-in-up" style="animation-delay: 0.4s;">
+                <h3 class="text-lg font-extrabold text-gray-700 mb-6 flex items-center gap-2">
+                    <i class="fas fa-history text-gray-400"></i> Recent
+                </h3>
+                <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar" id="entries-list">
+                    <!-- Entries populated here -->
+                    <div class="text-center text-gray-400 py-8 text-sm font-medium">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content: Analysis -->
+<div id="tab-analysis" class="tab-content hidden fade-in">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Streak Analysis -->
+        <div class="neu-flat p-8">
+            <h3 class="text-xl font-extrabold text-gray-700 mb-6 flex items-center gap-2">
+                <i class="fas fa-chart-line text-red-500"></i> Streak Breakdown
+            </h3>
+            <div class="space-y-8">
+                <!-- Weeks -->
+                <div>
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-sm font-bold text-gray-400 uppercase tracking-wider">Weeks Completed</span>
+                        <span class="text-3xl font-black text-gray-700" id="analysis-weeks">0</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3 neu-pressed overflow-hidden">
+                        <div class="bg-red-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"
+                            id="analysis-weeks-bar"></div>
+                    </div>
+                </div>
+                <!-- Months -->
+                <div>
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-sm font-bold text-gray-400 uppercase tracking-wider">Months Completed</span>
+                        <span class="text-3xl font-black text-gray-700" id="analysis-months">0</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3 neu-pressed overflow-hidden">
+                        <div class="bg-red-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"
+                            id="analysis-months-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fap Analysis (Placeholder for now) -->
+        <div class="neu-flat p-8 flex flex-col justify-center items-center text-center">
+            <div class="neu-icon w-20 h-20 rounded-full flex items-center justify-center text-gray-300 text-4xl mb-6">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-500 mb-2">Detailed Analytics</h3>
+            <p class="text-gray-400 text-sm">More detailed charts coming soon as you build your streak.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content: Insights -->
+<div id="tab-insights" class="tab-content hidden fade-in">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Current Stage Card -->
+        <div class="lg:col-span-8">
+            <div class="neu-flat p-8 h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-extrabold text-gray-700 flex items-center gap-2">
+                        <i class="fas fa-brain text-red-500"></i> Daily Insight
+                    </h3>
+                    <span
+                        class="neu-pressed px-4 py-1 rounded-full text-xs font-bold text-red-500 uppercase tracking-wider"
+                        id="insight-day-badge">Day 0</span>
+                </div>
+
+                <div class="mb-8">
+                    <h4 class="text-2xl font-bold text-gray-800 mb-4" id="insight-title">The Beginning</h4>
+                    <p class="text-gray-600 leading-relaxed text-lg" id="insight-desc">
+                        You are at the start of your journey. The first step is always the hardest. Prepare yourself for
+                        the initial urges and withdrawal symptoms. Stay strong.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="neu-pressed p-6 rounded-xl">
+                        <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Symptoms</h5>
+                        <ul class="space-y-2 text-gray-600 text-sm" id="insight-symptoms">
+                            <li><i class="fas fa-exclamation-circle text-red-400 mr-2"></i> Strong urges</li>
+                            <li><i class="fas fa-exclamation-circle text-red-400 mr-2"></i> Brain fog</li>
+                        </ul>
+                    </div>
+                    <div class="neu-pressed p-6 rounded-xl">
+                        <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Benefits</h5>
+                        <ul class="space-y-2 text-gray-600 text-sm" id="insight-benefits">
+                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Self-discipline</li>
+                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Pride</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="lg:col-span-4">
+            <div class="neu-flat p-8 h-full overflow-y-auto max-h-[600px] custom-scrollbar">
+                <h3 class="text-lg font-extrabold text-gray-700 mb-6">Timeline</h3>
+                <div class="relative border-l-2 border-gray-300 ml-3 space-y-8" id="timeline-list">
+                    <!-- Timeline items populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content: Garden -->
+<div id="tab-garden" class="tab-content hidden fade-in">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[70vh]">
+        <!-- Plant Display Area -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div class="neu-flat p-8 flex-grow flex flex-col items-center justify-center relative overflow-hidden"
+                style="min-height: 500px;">
+                <!-- Background Elements -->
+                <div class="absolute top-10 right-10 text-yellow-400 text-6xl opacity-80 animate-pulse">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <div class="absolute top-20 left-20 text-blue-200 text-4xl opacity-60">
+                    <i class="fas fa-cloud"></i>
+                </div>
+
+                <!-- Plant SVG -->
+                <svg id="plant-svg" viewBox="0 0 400 500" class="w-full h-full max-w-md z-10">
+                    <!-- Pot (Always Visible) -->
+                    <g id="pot" transform="translate(100, 400)">
+                        <path d="M20,0 L180,0 L160,100 L40,100 Z" fill="#8D6E63" stroke="#5D4037" stroke-width="3" />
+                        <rect x="10" y="-10" width="180" height="20" rx="5" fill="#A1887F" stroke="#5D4037"
+                            stroke-width="3" />
+                    </g>
+
+                    <!-- Stage 0: Seed (Day 0) -->
+                    <g id="stage-seed" transform="translate(200, 400)" class="hidden">
+                        <circle cx="0" cy="0" r="5" fill="#3E2723" />
+                    </g>
+
+                    <!-- Stage 1: Sprout (Day 1-3) -->
+                    <g id="stage-sprout" transform="translate(200, 400)" class="hidden">
+                        <path d="M0,0 Q0,-30 -10,-50" stroke="#66BB6A" stroke-width="4" fill="none" />
+                        <path d="M-10,-50 Q-20,-60 -5,-65 Q0,-55 -10,-50" fill="#66BB6A" />
+                        <path d="M-10,-50 Q0,-60 15,-55 Q5,-45 -10,-50" fill="#66BB6A" />
+                    </g>
+
+                    <!-- Stage 2: Sapling (Day 4-7) -->
+                    <g id="stage-sapling" transform="translate(200, 400)" class="hidden">
+                        <path d="M0,0 Q5,-60 0,-120" stroke="#558B2F" stroke-width="6" fill="none" />
+                        <!-- Leaves -->
+                        <g class="leaf-sway">
+                            <path d="M0,-60 Q-30,-80 -40,-50 Q-20,-40 0,-60" fill="#66BB6A" />
+                            <path d="M0,-90 Q30,-110 40,-80 Q20,-70 0,-90" fill="#66BB6A" />
+                            <path d="M0,-120 Q-20,-150 0,-160 Q20,-150 0,-120" fill="#66BB6A" />
+                        </g>
+                    </g>
+
+                    <!-- Stage 3: Bush (Day 8-29) -->
+                    <g id="stage-bush" transform="translate(200, 400)" class="hidden">
+                        <path d="M0,0 Q10,-80 0,-150" stroke="#4E342E" stroke-width="8" fill="none" />
+                        <path d="M0,-50 Q-40,-90 -60,-60" stroke="#4E342E" stroke-width="6" fill="none" />
+                        <path d="M0,-100 Q40,-140 60,-110" stroke="#4E342E" stroke-width="6" fill="none" />
+
+                        <!-- Foliage -->
+                        <g class="bush-sway">
+                            <circle cx="0" cy="-160" r="40" fill="#4CAF50" opacity="0.8" />
+                            <circle cx="-50" cy="-80" r="35" fill="#4CAF50" opacity="0.8" />
+                            <circle cx="50" cy="-120" r="35" fill="#4CAF50" opacity="0.8" />
+                            <circle cx="-20" cy="-120" r="30" fill="#66BB6A" opacity="0.8" />
+                            <circle cx="20" cy="-90" r="30" fill="#66BB6A" opacity="0.8" />
+                        </g>
+                    </g>
+
+                    <!-- Stage 4: Berries (Day 30+) -->
+                    <g id="stage-berries" transform="translate(200, 400)" class="hidden">
+                        <!-- Same Bush Base -->
+                        <path d="M0,0 Q10,-80 0,-150" stroke="#4E342E" stroke-width="8" fill="none" />
+                        <path d="M0,-50 Q-40,-90 -60,-60" stroke="#4E342E" stroke-width="6" fill="none" />
+                        <path d="M0,-100 Q40,-140 60,-110" stroke="#4E342E" stroke-width="6" fill="none" />
+
+                        <!-- Foliage -->
+                        <g class="bush-sway">
+                            <circle cx="0" cy="-160" r="45" fill="#2E7D32" opacity="0.9" />
+                            <circle cx="-50" cy="-80" r="40" fill="#2E7D32" opacity="0.9" />
+                            <circle cx="50" cy="-120" r="40" fill="#2E7D32" opacity="0.9" />
+                            <circle cx="-20" cy="-120" r="35" fill="#43A047" opacity="0.9" />
+                            <circle cx="20" cy="-90" r="35" fill="#43A047" opacity="0.9" />
+
+                            <!-- Berries -->
+                            <g class="berries-pop">
+                                <circle cx="-10" cy="-150" r="6" fill="#C62828" />
+                                <circle cx="10" cy="-170" r="6" fill="#C62828" />
+                                <circle cx="-40" cy="-90" r="6" fill="#C62828" />
+                                <circle cx="40" cy="-130" r="6" fill="#C62828" />
+                                <circle cx="0" cy="-100" r="6" fill="#C62828" />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Plant Stats / Info -->
+        <div class="lg:col-span-4 flex flex-col gap-8">
+            <div class="neu-flat p-8">
+                <h3 class="text-xl font-extrabold text-gray-700 mb-4 flex items-center gap-2">
+                    <i class="fas fa-seedling text-green-500"></i> Garden Status
+                </h3>
+                <div class="space-y-6">
+                    <div>
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Current Stage</span>
+                        <h4 class="text-2xl font-bold text-red-500 mt-1" id="plant-stage-text">Seed</h4>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Growth Progress</span>
+                        <div class="w-full bg-gray-200 rounded-full h-3 neu-pressed overflow-hidden mt-2">
+                            <div class="bg-green-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"
+                                id="plant-progress-bar"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-right" id="plant-next-stage">Next stage in 1 day</p>
+                    </div>
+                    <div class="neu-pressed p-4 rounded-xl">
+                        <p class="text-sm text-gray-600 italic" id="plant-message">
+                            "Every giant tree starts as a small seed. Nurture your streak."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Content: Journal -->
+<div id="tab-journal" class="tab-content hidden fade-in">
+    <div class="neu-flat p-8">
+        <h3 class="text-xl font-extrabold text-gray-700 mb-6">Full Journal History</h3>
+        <div class="space-y-4" id="full-entries-list">
+            <div class="text-center text-gray-400 py-8">Journal history will appear here.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Modal -->
+<div id="custom-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" id="modal-backdrop"></div>
+
+    <!-- Modal Card -->
+    <div
+        class="neu-flat bg-[#e0e5ec] p-8 rounded-2xl w-full max-w-md transform scale-90 transition-transform duration-300 relative z-10 mx-4">
+        <h3 class="text-xl font-extrabold text-gray-700 mb-4" id="modal-title">Confirm Action</h3>
+        <p class="text-gray-600 mb-8 leading-relaxed" id="modal-message">Are you sure you want to proceed?</p>
+
+        <div class="flex justify-end gap-4">
+            <button id="modal-cancel"
+                class="neu-btn px-6 py-3 text-sm font-bold text-gray-500 uppercase tracking-wider hover:text-gray-700">
+                Cancel
+            </button>
+            <button id="modal-confirm"
+                class="neu-btn-primary px-8 py-3 text-sm font-bold text-white uppercase tracking-wider rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

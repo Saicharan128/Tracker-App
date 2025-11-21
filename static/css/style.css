@@ -1,0 +1,182 @@
+:root {
+    --bg-color: #e0e5ec;
+    --text-main: #4b5563;
+    --text-light: #9ca3af;
+    --accent-red: #ef4444;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.block {
+    display: block !important;
+}
+
+/* Neumorphic Utilities */
+.neu-flat {
+    background: var(--bg-color);
+    box-shadow: 9px 9px 16px var(--shadow-dark),
+        -9px -9px 16px var(--shadow-light);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.neu-pressed {
+    background: var(--bg-color);
+    box-shadow: inset 6px 6px 10px var(--shadow-dark),
+        inset -6px -6px 10px var(--shadow-light);
+    border-radius: 15px;
+    border: none;
+}
+
+.neu-btn {
+    background: var(--bg-color);
+    box-shadow: 6px 6px 10px var(--shadow-dark),
+        -6px -6px 10px var(--shadow-light);
+    color: var(--accent-red);
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neu-btn:active {
+    box-shadow: inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+    transform: translateY(2px);
+}
+
+.neu-btn-primary {
+    background: var(--accent-red);
+    color: white;
+    box-shadow: 6px 6px 10px rgba(239, 68, 68, 0.4),
+        -6px -6px 10px var(--shadow-light);
+}
+
+.neu-btn-primary:active {
+    background: #dc2626;
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab States */
+.neu-tab {
+    background: transparent;
+    box-shadow: none;
+}
+
+.neu-tab:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.neu-tab-active {
+    background: var(--bg-color);
+    box-shadow: inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Text Selection */
+::selection {
+    background: #fee2e2;
+    /* Red 100 */
+    color: #991b1b;
+}
+
+/* Modal Open State */
+.modal-open {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.modal-open .neu-flat {
+    transform: scale(1) !important;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Accordion Styles */
+.accordion-header {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.accordion-content.active {
+    max-height: 1000px;
+    /* Arbitrary large height */
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .accordion-icon {
+    transform: rotate(180deg);
+}
